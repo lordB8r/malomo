@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15.3-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - ./.data/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+
+  backend:
+    build: ./backend
+    ports:
+      - 4000:4000
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/app
+    environment:
+      DATABASE_URL: ecto://postgres:postgres@db/backend_dev
+
+  frontend:
+    build: ./frontend
+    ports:
+      - 5173:5173
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
