@@ -23,7 +23,7 @@ defmodule Backend.Tracking.TrackingSim do
   def get_status(tracker_id) do
     Req.get!(
       @base_url <> "/" <> tracker_id,
-      header: [
+      headers: [
         "authorization",
         "Bearer #{api_key()}"
       ]

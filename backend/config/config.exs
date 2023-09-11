@@ -41,6 +41,8 @@ config :backend, Backend.Tracking.Tracking, client: Backend.Tracking.TrackingSim
 
 config :backend, tracking_api_key: "sk_293134e6e0d121c996115200042580f5"
 
+config :backend, Oban, repo: Backend.Repo, plugins: [Oban.Plugins.Pruner], queues: [tracking: 10]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

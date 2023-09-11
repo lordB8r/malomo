@@ -30,3 +30,5 @@ config :logger, level: :warn
 config :phoenix, :plug_init_mode, :runtime
 
 config :backend, Backend.Tracking.Tracking, client: Backend.Tracking.TrackingSim.Mock
+
+config :backend, Oban, testing: :inline

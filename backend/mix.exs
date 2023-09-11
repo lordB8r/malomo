@@ -38,6 +38,7 @@ defmodule Backend.MixProject do
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:mox, "~> 1.0", only: :test},
+      {:oban, "~> 2.15"},
       {:phoenix, "~> 1.6.15"},
       {:phoenix_ecto, "~> 4.4"},
       {:phoenix_live_dashboard, "~> 0.6"},
