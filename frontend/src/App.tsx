@@ -1,41 +1,63 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import TrackingForm from './TrackingForm';
+import ItemList from './ItemList';
 
-const pingServer = () =>
-  fetch('http://localhost:4000/api/ping')
-    .then((resp) => resp.text())
-    .then(alert);
+const App: React.FC = () => {
+  const [items, setItems] = useState<string[]>([]);
+  const [successMessage, setSuccessMessage] =useState(null);
 
-function App() {
-  const [count, setCount] = useState<number>(0);
+  // Function to submit tracking info to the API
+  const handleSubmit = (tracking_code: string, carrier: string) => {
+    // Send a POST request to your API with the tracking info
+    // You need to implement this API call
+    // After a successful response, you can update the list of items
+    // Example:
+    fetch('http://localhost:4000/api/shipment', {
+      method: 'POST',
+      body: JSON.stringify({ tracking_code, carrier }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        setSuccessMessage('Form submitted successfully!');
+      })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  };
+
+  // Function to fetch the list of items from the API
+  const fetchItems = () => {
+    // Send a GET request to your API to fetch items
+    // You need to implement this API call
+    // Example:
+    fetch('http://localhost:4000/api/shipments')
+    .then((response) => response.json())
+    .then((data) => {
+      setItems(data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  };
+
+  useEffect(() => {
+    // Call the fetchItems function when the component mounts
+    fetchItems();
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-        <button onClick={pingServer}>Ping Server</button>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      {successMessage && <div className="success-message">{successMessage}</div>}
+      <TrackingForm onSubmit={handleSubmit} />
+      <button onClick={fetchItems}>
+        Get Shipments
+      </button>
+      <ItemList items={items} />
+    </div>
   );
-}
+};
 
 export default App;
