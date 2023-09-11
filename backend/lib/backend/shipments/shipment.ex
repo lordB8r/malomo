@@ -33,7 +33,7 @@ defmodule Backend.Shipments.Shipment do
   @doc false
   def changeset(shipments, attrs) do
     shipments
-    |> cast(attrs, [:tracking_code, :carrier_name, :status])
-    |> validate_required([:tracking_code, :carrier_name, :status])
+    |> cast(attrs, [:tracking_code, :carrier_name, :status, :tracking_sim_id])
+    |> validate_required([:tracking_code, :carrier_name, :status, :tracking_sim_id])
   end
 end

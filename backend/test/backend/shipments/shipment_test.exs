@@ -4,7 +4,12 @@ defmodule Backend.Shipments.ShipmentTest do
   alias Backend.Shipments.Shipment
 
   describe "shipments" do
-    @valid_attrs %{carrier_name: "UPS", tracking_code: "234xc234asdxcv234", status: "unknown"}
+    @valid_attrs %{
+      carrier_name: "UPS",
+      tracking_code: "234xc234asdxcv234",
+      status: "unknown",
+      tracking_sim_id: "2ae4f4a9-d0c9-42d1-aed6-13891a1f2c56"
+    }
     @missing_carrier_attrs %{tracking_code: "234xc234asdxcv234"}
     @missing_status_attrs %{
       carrier_name: "UPS",
