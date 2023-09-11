@@ -19,8 +19,8 @@ defmodule Backend.Tracking.TrackingTest do
           "carrier" => "usps",
           "status" => "pre_transit",
           "tracking_code" => "asdf1234asdf",
-          "inserted_at" => "2023-09-01T17:26:52",
-          "updated_at" => "2023-09-01T17:27:32"
+          "inserted_at" => "2023-09-01T17:26:52Z",
+          "updated_at" => "2023-09-01T17:27:32Z"
         }
       end)
 
@@ -58,8 +58,8 @@ defmodule Backend.Tracking.TrackingTest do
           "carrier" => "usps",
           "status" => "pre_transit",
           "tracking_code" => "asdf1234asdf",
-          "inserted_at" => "2023-09-01T17:26:52",
-          "updated_at" => "2023-09-01T17:27:32"
+          "inserted_at" => "2023-09-01T17:26:52Z",
+          "updated_at" => "2023-09-01T17:27:32Z"
         }
       end)
 

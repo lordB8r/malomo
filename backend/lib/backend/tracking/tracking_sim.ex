@@ -3,31 +3,32 @@ defmodule Backend.Tracking.TrackingSim do
   @base_url "https://trackingsim.gomalomo.dev/api/trackers"
 
   def create_tracker(tracking_code, carrier, status) do
-    Req.new(
-      method: :post,
-      base_url: @base_url,
-      body: %{
-        carrier: carrier,
-        tracking_code: tracking_code,
-        status: status
-      }
-    )
-    |> Req.Request.put_header(
-      "authorization",
-      "Bearer #{api_key()}"
-    )
-    |> Req.Request.run!()
+    {:ok, resp} =
+      Req.new(
+        base_url: @base_url,
+        json: %{
+          carrier: carrier,
+          tracking_code: tracking_code,
+          status: status
+        }
+      )
+      |> Req.Request.put_header(
+        "authorization",
+        "Bearer #{api_key()}"
+      )
+      |> Req.post()
+
+    resp
     |> Map.get(:body)
   end
 
   def get_status(tracker_id) do
-    Req.get!(
-      @base_url <> "/" <> tracker_id,
-      headers: [
-        "authorization",
-        "Bearer #{api_key()}"
-      ]
+    Req.new(base_url: @base_url <> "/" <> tracker_id)
+    |> Req.Request.put_header(
+      "authorization",
+      "Bearer #{api_key()}"
     )
+    |> Req.get!()
     |> Map.get(:body)
   end
 

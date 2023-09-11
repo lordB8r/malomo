@@ -6,23 +6,23 @@ defmodule Backend.Tracking.Worker do
     shipment = Backend.Repo.get_by!(Backend.Shipments.Shipment, tracking_sim_id: tracking_sim_id)
 
     case Backend.Tracking.Tracking.get_status(tracking_sim_id) do
-      %{"state" => "unknown", "updated_at" => updated_at} ->
+      %{"status" => "unknown", "updated_at" => updated_at} ->
         update_tracker_status(shipment, "unknown", updated_at)
         {:snooze, 10}
 
-      %{"state" => "pre_transit", "updated_at" => updated_at} ->
+      %{"status" => "pre_transit", "updated_at" => updated_at} ->
         update_tracker_status(shipment, "pre_transit", updated_at)
         {:snooze, 10}
 
-      %{"state" => "in_transit", "updated_at" => updated_at} ->
+      %{"status" => "in_transit", "updated_at" => updated_at} ->
         update_tracker_status(shipment, "in_transit", updated_at)
         {:snooze, 10}
 
-      %{"state" => "out_for_delivery", "updated_at" => updated_at} ->
+      %{"status" => "out_for_delivery", "updated_at" => updated_at} ->
         update_tracker_status(shipment, "out_for_delivery", updated_at)
         {:snooze, 10}
 
-      %{"state" => finale, "updated_at" => updated_at} ->
+      %{"status" => finale, "updated_at" => updated_at} ->
         update_tracker_status(shipment, finale, updated_at)
         :ok
     end
@@ -35,13 +35,13 @@ defmodule Backend.Tracking.Worker do
       |> Backend.Repo.update!()
     end)
 
-    ship_event = Backend.Repo.get_by(Backend.Shipments.ShipmentEvent, shipment_id: shipment.id)
-    upd_at = DateTime.from_iso8601(updated_at <> "Z")
+    {_, upd_at, _} = DateTime.from_iso8601(updated_at <> "Z")
 
-    Backend.Repo.transaction(fn ->
-      ship_event
-      |> Ecto.Changeset.change(%{changed_at: upd_at, status: String.to_existing_atom(status)})
-      |> Backend.Repo.insert!()
-    end)
+    %Backend.Shipments.ShipmentEvent{
+      shipment: shipment,
+      status: status,
+      changed_at: upd_at
+    }
+    |> Backend.Repo.insert!()
   end
 end
