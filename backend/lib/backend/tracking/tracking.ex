@@ -26,7 +26,7 @@ defmodule Backend.Tracking.Tracking do
            |> Ecto.Multi.insert(:shipment, %Shipment{
              tracking_code: tracking_code,
              carrier_name: carrier,
-             status: status,
+             status: String.to_existing_atom(status),
              tracking_sim_id: tracking_sim_id
            })
            |> Oban.insert(

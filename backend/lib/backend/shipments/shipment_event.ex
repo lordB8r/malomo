@@ -3,7 +3,8 @@ defmodule Backend.Shipments.ShipmentEvent do
   import Ecto.Changeset
 
   schema "shipment_events" do
-    field(:description, :string)
+    field(:status, :string)
+    field(:changed_at, :utc_datetime)
 
     belongs_to(:shipment, Backend.Shipments.Shipment)
     timestamps(type: :utc_datetime)
@@ -12,7 +13,7 @@ defmodule Backend.Shipments.ShipmentEvent do
   @doc false
   def changeset(shipment_event, attrs) do
     shipment_event
-    |> cast(attrs, [:shipment_id, :description])
-    |> validate_required([:shipment_id, :description])
+    |> cast(attrs, [:shipment_id, :status, :changed_at])
+    |> validate_required([:shipment_id, :status])
   end
 end

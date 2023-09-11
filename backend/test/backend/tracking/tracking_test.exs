@@ -17,7 +17,7 @@ defmodule Backend.Tracking.TrackingTest do
         %{
           "id" => "2ae4f4a9-d0c9-42d1-aed6-13891a1f2c56",
           "carrier" => "usps",
-          "status" => :pre_transit,
+          "status" => "pre_transit",
           "tracking_code" => "asdf1234asdf",
           "inserted_at" => "2023-09-01T17:26:52",
           "updated_at" => "2023-09-01T17:27:32"
@@ -56,7 +56,7 @@ defmodule Backend.Tracking.TrackingTest do
         %{
           "id" => "2ae4f4a9-d0c9-42d1-aed6-13891a1f2c56",
           "carrier" => "usps",
-          "status" => :pre_transit,
+          "status" => "pre_transit",
           "tracking_code" => "asdf1234asdf",
           "inserted_at" => "2023-09-01T17:26:52",
           "updated_at" => "2023-09-01T17:27:32"
@@ -67,7 +67,7 @@ defmodule Backend.Tracking.TrackingTest do
         Backend.Tracking.Tracking.create_tracker(
           "2ae4f4a9-d0c9-42d1-aed6-13891a1f2c56",
           "usps",
-          "Unknown"
+          "unknown"
         )
       end)
 
